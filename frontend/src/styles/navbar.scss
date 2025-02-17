@@ -1,0 +1,15 @@
+@import 'variables';
+
+.header {
+    background-color: $backgroundNavbar;
+    color: $textColor;
+    padding: 1rem 2rem;
+
+    h1 {
+        margin: 0;
+    }
+    
+    a {
+        color: $textColor;
+    }
+}
