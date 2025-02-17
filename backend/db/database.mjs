@@ -1,7 +1,6 @@
 import { MongoClient } from "mongodb";
 console.log("openDb");
-console.log(process.env.ATLAS_USERNAME);
-console.log(process.env.ATLAS_PASSWORD);
+
 let client;
 let db;
 
