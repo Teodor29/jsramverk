@@ -1,0 +1,11 @@
+.header {
+    background-color: #171717;
+    color: #ccc;
+    padding: 1rem 2rem;
+}
+.header h1 {
+    margin: 0;
+}
+.header a {
+    color: #ccc;
+}/*# sourceMappingURL=navbar.css.map */

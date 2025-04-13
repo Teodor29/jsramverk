@@ -15,21 +15,26 @@ function App() {
     }, []);
 
     return (
-        <Router>
+        <Router basename="/~teli21/editor">
             <Header />
             <Routes>
-                <Route path="/" element={
-                    <div class="main">
-                        <h1>Document List</h1>
-                        <ul>
-                            {documents.map(doc => (
-                                <h3 key={doc._id}>
-                                    <Link to={`/documents/${doc._id}`}>{doc.title}</Link>
-                                </h3>
-                            ))}
-                        </ul>
-                    </div>
-                } />
+                <Route
+                    path="/"
+                    element={
+                        <div className="main">
+                            <h1>Document List</h1>
+                            <ul>
+                                {documents.map((doc) => (
+                                    <h3 key={doc._id}>
+                                        <Link to={`/documents/${doc._id}`}>
+                                            {doc.title}
+                                        </Link>
+                                    </h3>
+                                ))}
+                            </ul>
+                        </div>
+                    }
+                />
 
                 {/* Route for the document details view */}
                 <Route path="/documents/:id" element={<Document />} />
