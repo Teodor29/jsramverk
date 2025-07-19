@@ -52,7 +52,18 @@ jobs:
         - name: Install frontend dependencies
           working-directory: ./frontend
           run: npm install
-            
-        - name: build and deploy frontend
+
+        - name: Set up SSH
+          run: |
+            mkdir -p ~/.ssh
+            echo "${{ secrets.BTH_SSH_KEY }}" > ~/.ssh/dbwebb
+            chmod 600 ~/.ssh/dbwebb
+            ssh-keyscan ssh.student.bth.se >> ~/.ssh/known_hosts
+
+        - name: Build frontend
           working-directory: ./frontend
-          run: npm run deploy
+          run: npm run build
+
+        - name: Deploy frontend
+          working-directory: ./frontend
+          run: rsync -av --delete -e "ssh -i ~/.ssh/dbwebb" dist/ teli21@ssh.student.bth.se:www/editor
