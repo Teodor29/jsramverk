@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+    --color-text-primary: #C0C0C0;    
+    --color-text-secondary: #A0A0A0;
+    --color-text-heading: #f0f0f0;
+    --color-text-link: #83b552;
+
+    --color-accent-text: #b8de93;
+    --color-accent-hover: #83b552;
+    --color-accent: #83b552;
+    --color-accent-button: #658b3fff;
+    --color-link: #83b552;
+    --color-outline: #545454;
+    --color-red: #ff2718;
+
+    --color-dark: #0A0A0A;
+    --color-dark2: #1A1A1A;
+    --color-dark3: #2A2A2A;
+    --color-dark4: #3A3A3A;
+    --color-dark5: #4A4A4A;
+    --color-dark6: #5A5A5A;
+
+    --font-display: "Inter", sans-serif;
+}
+
+@layer base {
+    body {
+        @apply bg-dark2 text-text-primary font-display;
+    }
+    h1 {
+        @apply text-text-heading text-4xl font-bold mb-4;
+    }
+    h2 {
+        @apply text-text-heading text-2xl font-semibold mb-3;
+    }
+    h3 {
+        @apply text-text-heading text-xl font-semibold mb-2;
+    }
+    p {
+        @apply text-base text-text-secondary mb-4;
+    }
+    button {
+        @apply bg-accent-button text-text-heading font-semibold py-2 px-4 rounded hover:bg-accent-hover cursor-pointer transition-colors;
+    }
+    input,
+    textarea {
+        @apply w-full p-4 bg-dark2 text-text-primary border border-outline rounded-md py-2 px-3 transition-colors;
+    }
+    label {
+        @apply text-text-primary font-semibold mb-2 block;
+    }
+    a {
+        @apply text-link hover:underline;
+    }
+    header a {
+        @apply text-text-secondary;
+    }
+}

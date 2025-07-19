@@ -1,0 +1,27 @@
+networks:
+  jsramverk:
+    driver: bridge
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    ports:
+      - "1337:1337"
+    networks:
+      - jsramverk
+    env_file:
+      - backend/.env
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - jsramverk
+    env_file:
+      - frontend/.env
+
