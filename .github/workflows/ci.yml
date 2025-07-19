@@ -32,4 +32,7 @@ jobs:
 
       - name: Run backend tests
         working-directory: ./backend
+        env:
+          ATLAS_USERNAME: ${{ secrets.ATLAS_USERNAME }}
+          ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
         run: npm test
