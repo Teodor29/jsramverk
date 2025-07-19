@@ -1,38 +1,58 @@
-name: CI
+name: CI+CD Pipeline
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+    test:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+        - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+        - name: Set up Node.js
+          uses: actions/setup-node@v4
+          with:
+              node-version: '18'
 
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm install
+        - name: Install frontend dependencies
+          working-directory: ./frontend
+          run: npm install
 
-      - name: Run frontend tests
-        working-directory: ./frontend
-        run: npm test
+        - name: Run frontend tests
+          working-directory: ./frontend
+          run: npm test
 
-      - name: Install backend dependencies
-        working-directory: ./backend
-        run: npm install
+        - name: Install backend dependencies
+          working-directory: ./backend
+          run: npm install
 
-      - name: Run backend tests
-        working-directory: ./backend
-        env:
-          ATLAS_USERNAME: ${{ secrets.ATLAS_USERNAME }}
-          ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
-        run: npm test
+        - name: Run backend tests
+          working-directory: ./backend
+          env:
+              ATLAS_USERNAME: ${{ secrets.ATLAS_USERNAME }}
+              ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
+          run: npm test
+
+    deploy:
+        needs: test
+        runs-on: ubuntu-latest
+        
+        steps:
+        - uses: actions/checkout@v4
+        
+        - name: Set up Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: '18'
+
+        - name: Install frontend dependencies
+          working-directory: ./frontend
+          run: npm install
+            
+        - name: build and deploy frontend
+          working-directory: ./frontend
+          run: npm run deploy
