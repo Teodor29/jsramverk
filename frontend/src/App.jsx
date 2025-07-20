@@ -7,9 +7,12 @@ import Footer from "./components/Footer";
 
 function App() {
     const [documents, setDocuments] = useState([]);
+    const apiUrl =
+        import.meta.env.VITE_API_URL ||
+        "https://jsramverk-editor-teli21-g8dfgkbabgfygce2.swedencentral-01.azurewebsites.net/api";
 
     useEffect(() => {
-        fetch(import.meta.env.VITE_API_URL)
+        fetch(apiUrl)
             .then((res) => res.json())
             .then((data) => setDocuments(data));
     }, []);
