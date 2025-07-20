@@ -1,38 +1,112 @@
-# Jsramverk SSR Editor
+# Jsramverk SSR Editor - Refactoring
 
-Starter project for DV1677 JSRamverk
-
-Jag har valt att implementera React som frontend-ramverk.
+Project for DV1677 JSRamverk.
 
 ---
 
 ## Getting Started
 
-To run the entire system locally with Docker, follow these steps:
+### Run with Docker
 
-### 1. Clone the Repository
+Run the project is using Docker Compose:
 
-Clone the repository to your local machine:
+1. Clone the repository:
 
-```
-git clone https://github.com/Teodor29/jsramverk
-```
+    ```bash
+    git clone https://github.com/Teodor29/refaktorering
+    ```
 
-### 2. Configure Environment Variables
+2. Create .env files:
 
-Create a `.env` file in the root directory `jsramverk`, and add the following environment variables:
+    refaktorering/backend/.env:
 
-```
-ATLAS_USERNAME=<username>
-ATLAS_PASSWORD=<password>
+    ```bash
+    ATLAS_USERNAME=<your_atlas_username>
+    ATLAS_PASSWORD=<your_atlas_password>
+    ```
 
-VITE_API_URL="http://localhost:1337/api"
-```
+    refaktorering/frontend/.env:
 
-### 3. Build and Start the System with Docker Compose
+    ```bash
+    VITE_API_URL="http://localhost:1337/api"
+    ```
 
-Run the following command to build and start all services using Docker Compose:
+3. Navigate to the project folder:
 
-```
-docker compose up --build
-```
+    ```bash
+    cd refaktorering
+    ```
+
+4. Start the services:
+    ```bash
+    docker compose up --build
+    ```
+
+### Running Locally
+
+To run the backend and frontend locally:
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/Teodor29/refaktorering
+    ```
+
+2. Navigate to the project folder:
+    ```bash
+    cd refaktorering
+    ```
+
+#### Backend Setup
+
+1. Navigate to the refaktorering/backend folder:
+
+    ```bash
+    cd backend
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Create a `.env` file
+   refaktorering/backend/.env:
+
+    ```bash
+    ATLAS_USERNAME=<your_atlas_username>
+    ATLAS_PASSWORD=<your_atlas_password>
+    ```
+
+4. Start the backend server:
+    ```bash
+    npm start
+    ```
+
+#### Frontend Setup
+
+1. Open a new terminal and navigate to the refaktorering/frontend folder:
+
+    ```bash
+    cd frontend
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Create a `.env` file:
+    refaktorering/backend/.env:
+
+    ```bash
+    VITE_API_URL="http://localhost:1337/api"
+    ```
+
+4. Start the development server:
+    ```bash
+    npm run dev
+    ```
+
