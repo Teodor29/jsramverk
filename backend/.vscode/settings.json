@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/0a3b6242-c605-42b2-8c7c-843770af7ee9/resourceGroups/appsvc_linux_swedencentral/providers/Microsoft.Web/sites/jsramverk-editor-teli21",
+    "appService.deploySubpath": "."
+}

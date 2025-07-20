@@ -7,7 +7,7 @@ function Footer() {
                 <li>
                     <Link
                         onClick={() =>
-                            window.open("/coverage/index.html", "_blank")
+                            window.open("/~teli21/editor/coverage/index.html", "_blank")
                         }
                     >
                         Coverage
