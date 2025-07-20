@@ -9,6 +9,10 @@ async function openDb() {
         try {
             let url = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.vcuu1.mongodb.net?retryWrites=true&w=majority`;
 
+            if (process.env.NODE_ENV === "test") {
+                url = "mongodb://localhost:27017/test";
+            }
+
             client = await MongoClient.connect(url);
 
             db = client.db("jsramverk");
