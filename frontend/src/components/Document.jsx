@@ -21,7 +21,7 @@ function Document({ apiUrl }) {
         e.preventDefault();
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/${id}`,
+                `${apiUrl}/${id}`,
                 {
                     method: "PUT",
                     headers: {
