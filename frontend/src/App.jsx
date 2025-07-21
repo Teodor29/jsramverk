@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Document from "./components/Document";
@@ -20,7 +20,7 @@ function App() {
         fetch(apiUrl)
             .then((res) => res.json())
             .then((data) => setDocuments(data));
-    }, []);
+    }, [apiUrl]);
 
     return (
         <Router basename={basename}>

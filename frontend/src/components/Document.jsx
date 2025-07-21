@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function Document({ apiUrl }) {
@@ -11,7 +11,7 @@ function Document({ apiUrl }) {
             .then((res) => res.json())
             .then((data) => setDocument(data))
             .catch((err) => console.error(err));
-    }, [id]);
+    }, [id, apiUrl]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

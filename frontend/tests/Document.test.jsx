@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 import "@testing-library/jest-dom";
 import Document from "../src/components/Document";
+import { test, expect } from "vitest";
 
 test("renders Document component", () => {
     render(
