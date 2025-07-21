@@ -1,4 +1,4 @@
-# Jsramverk SSR Editor - Refactoring
+# Jsramverk SSR Editor
 
 Project for DV1677 JSRamverk.
 
@@ -13,19 +13,19 @@ Run the project is using Docker Compose:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/Teodor29/refaktorering
+    git clone https://github.com/Teodor29/jsramverk
     ```
 
 2. Create .env files:
 
-    refaktorering/backend/.env:
+    jsramverk/backend/.env:
 
     ```bash
     ATLAS_USERNAME=<your_atlas_username>
     ATLAS_PASSWORD=<your_atlas_password>
     ```
 
-    refaktorering/frontend/.env:
+    jsramverk/frontend/.env:
 
     ```bash
     VITE_API_URL="http://localhost:1337/api"
@@ -34,7 +34,7 @@ Run the project is using Docker Compose:
 3. Navigate to the project folder:
 
     ```bash
-    cd refaktorering
+    cd jsramverk
     ```
 
 4. Start the services:
@@ -49,17 +49,17 @@ To run the backend and frontend locally:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/Teodor29/refaktorering
+    git clone https://github.com/Teodor29/jsramverk
     ```
 
 2. Navigate to the project folder:
     ```bash
-    cd refaktorering
+    cd jsramverk
     ```
 
 #### Backend Setup
 
-1. Navigate to the refaktorering/backend folder:
+1. Navigate to the jsramverk/backend folder:
 
     ```bash
     cd backend
@@ -72,7 +72,7 @@ To run the backend and frontend locally:
     ```
 
 3. Create a `.env` file
-   refaktorering/backend/.env:
+   jsramverk/backend/.env:
 
     ```bash
     ATLAS_USERNAME=<your_atlas_username>
@@ -86,7 +86,7 @@ To run the backend and frontend locally:
 
 #### Frontend Setup
 
-1. Open a new terminal and navigate to the refaktorering/frontend folder:
+1. Open a new terminal and navigate to the jsramverk/frontend folder:
 
     ```bash
     cd frontend
@@ -99,7 +99,7 @@ To run the backend and frontend locally:
     ```
 
 3. Create a `.env` file:
-    refaktorering/backend/.env:
+    jsramverk/backend/.env:
 
     ```bash
     VITE_API_URL="http://localhost:1337/api"
