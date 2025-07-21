@@ -11,6 +11,11 @@ function App() {
         import.meta.env.VITE_API_URL ||
         "https://jsramverk-editor-teli21-g8dfgkbabgfygce2.swedencentral-01.azurewebsites.net/api";
 
+    let basename = "/~teli21/editor/";
+    if (import.meta.env.MODE === "test") {
+        basename = "/";
+    }
+
     useEffect(() => {
         fetch(apiUrl)
             .then((res) => res.json())
@@ -18,7 +23,7 @@ function App() {
     }, []);
 
     return (
-        <Router basename="/~teli21/editor/">
+        <Router basename={basename}>
             <div className="font-display min-h-screen bg-dark2 text-text-primary flex flex-col">
                 <Header />
                 <main className="flex-1 container mx-auto py-8 px-4">

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 import "@testing-library/jest-dom";
-import Document from "./Document";
+import Document from "../src/components/Document";
 
 test("renders Document component", () => {
     render(
@@ -22,7 +22,9 @@ test("updates document", async () => {
 
     const titleInput = screen.getByLabelText("Titel");
     const contentInput = screen.getByLabelText("Innehåll");
-    const submitButton = screen.getByRole("button", { name: "Uppdatera dokument" });
+    const submitButton = screen.getByRole("button", {
+        name: "Uppdatera dokument",
+    });
 
     await userEvent.type(titleInput, "New Title");
     await userEvent.type(contentInput, "New Content");

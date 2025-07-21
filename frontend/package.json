@@ -9,7 +9,7 @@
         "build": "vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "deploy": "npm run build && rsync -av --delete dist/ teli21@ssh.student.bth.se:www/editor",
+        "deploy": "npm run build && rsync -av --delete dist/ teli21@ssh.student.bth.se:www/editor && rsync -av --delete coverage/ teli21@ssh.student.bth.se:www/editor/coverage",
         "test": "vitest run --coverage"
     },
     "dependencies": {

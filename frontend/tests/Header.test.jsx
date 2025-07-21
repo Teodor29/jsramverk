@@ -1,13 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import "@testing-library/jest-dom";
-import Footer from "./Footer";
+import Header from "../src/components/Header";
 
-test("renders Footer component", () => {
+test("renders Header component", () => {
     render(
         <Router>
-            <Footer />
+            <Header />
         </Router>
     );
-    expect(screen.getByText("Coverage")).toBeInTheDocument();
+    expect(screen.getByText("SSR Editor")).toBeInTheDocument();
 });

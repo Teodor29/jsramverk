@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Document({ apiUrl }) {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [document, setDocument] = useState({ title: "", content: "" });
 
     useEffect(() => {
@@ -20,22 +21,20 @@ function Document({ apiUrl }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(
-                `${apiUrl}/${id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(document),
-                }
-            );
+            const response = await fetch(`${apiUrl}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(document),
+            });
             if (!response.ok) {
                 console.error("Failed to update document");
                 return;
             }
 
-            window.location.href = "/";
+            navigate("/");
+            window.location.reload();
         } catch (error) {
             console.error("Failed to update document", error);
             return;

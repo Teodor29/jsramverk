@@ -9,13 +9,6 @@ function Header() {
                         SSR Editor
                     </Link>
                 </h1>
-                <nav className="mt-2">
-                    <ul className="flex space-x-4">
-                        <li>
-                            <Link to="/">Hem</Link>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </header>
     );
