@@ -27,7 +27,10 @@ function App() {
                             path="/"
                             element={<DocumentList documents={documents} />}
                         />
-                        <Route path="/documents/:id" element={<Document />} />
+                        <Route
+                            path="/documents/:id"
+                            element={<Document apiUrl={apiUrl} />}
+                        />
                     </Routes>
                 </main>
                 <Footer />

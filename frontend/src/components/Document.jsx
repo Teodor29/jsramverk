@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-function Document() {
+function Document({ apiUrl }) {
     const { id } = useParams();
     const [document, setDocument] = useState({ title: "", content: "" });
-    const apiUrl =
-        `${import.meta.env.VITE_API_URL}/${id}` ||
-        `https://jsramverk-editor-teli21-g8dfgkbabgfygce2.swedencentral-01.azurewebsites.net/api/${id}`;
 
     useEffect(() => {
-        fetch(apiUrl)
+        fetch(`${apiUrl}/${id}`)
             .then((res) => res.json())
             .then((data) => setDocument(data))
             .catch((err) => console.error(err));
