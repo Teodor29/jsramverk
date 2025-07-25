@@ -1,24 +1,33 @@
 import express from "express";
-import documents from "../docs.mjs";
+import documents from "../models/docs.mjs";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
     const result = await documents.getAll();
-    res.json(result);
+    if (result) {
+        res.json(result);
+    } else {
+        res.status(404).json({ error: "No documents found" });
+    }
 });
 
 router.get("/:id", async (req, res) => {
     const result = await documents.getOne(req.params.id);
-    if (!result) {
-        return res.status(404).json({ error: "Document not found" });
+    if (result) {
+        res.json(result);
+    } else {
+        res.status(404).json({ error: "Document not found" });
     }
-    res.json(result);
 });
 
 router.post("/", async (req, res) => {
     const result = await documents.addOne(req.body);
-    res.status(201).json({ id: result.insertedId });
+    if (result) {
+        res.json(result);
+    } else {
+        res.status(404).json({ error: "Failed to create document" });
+    }
 });
 
 router.put("/:id", async (req, res) => {
@@ -35,7 +44,7 @@ router.put("/:id", async (req, res) => {
     if (result.matchedCount === 0) {
         return res.status(404).json({ error: "Document not found" });
     }
-    res.json({ message: "Document updated" });
+    res.json(result);
 });
 
 router.delete("/:id", async (req, res) => {
@@ -45,7 +54,7 @@ router.delete("/:id", async (req, res) => {
     if (result.deletedCount === 0) {
         return res.status(404).json({ error: "Document not found" });
     }
-    res.json({ message: "Document deleted" });
+    res.json(result);
 });
 
 export default router;

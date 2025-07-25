@@ -7,10 +7,17 @@ function Document({ apiUrl }) {
     const [document, setDocument] = useState({ title: "", content: "" });
 
     useEffect(() => {
-        fetch(`${apiUrl}/${id}`)
-            .then((res) => res.json())
-            .then((data) => setDocument(data))
-            .catch((err) => console.error(err));
+        async function fetchDocument() {
+            try {
+                const response = await fetch(`${apiUrl}/docs/${id}`);
+                const data = await response.json();
+                setDocument(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        fetchDocument();
     }, [id, apiUrl]);
 
     const handleChange = (e) => {
@@ -21,7 +28,7 @@ function Document({ apiUrl }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${apiUrl}/${id}`, {
+            const response = await fetch(`${apiUrl}/docs/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,7 +51,7 @@ function Document({ apiUrl }) {
     if (!document) return <p>Loading...</p>;
 
     return (
-        <div className="max-w-xl mx-auto mt-8 dark:bg-dark3 rounded-xl shadow p-6 space-y-6">
+        <div className="card">
             <h2 className="text-center">Redigera dokument</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -56,7 +63,6 @@ function Document({ apiUrl }) {
                         name="title"
                         value={document.title || ""}
                         onChange={handleChange}
-                        className="bg-dark4"
                         placeholder="Titel på dokumentet"
                         required
                     />
@@ -70,7 +76,6 @@ function Document({ apiUrl }) {
                         value={document.content || ""}
                         onChange={handleChange}
                         rows={8}
-                        className="bg-dark4"
                         placeholder="Skriv innehållet här"
                         required
                     />

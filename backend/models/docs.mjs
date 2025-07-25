@@ -1,11 +1,10 @@
-import { openDb } from "./db/database.mjs";
+import { getDb } from "../db/database.mjs";
 import { ObjectId } from "mongodb";
-
-const { db } = await openDb();
 
 const docs = {
     getAll: async function getAll() {
         try {
+            const db = getDb();
             const result = await db.collection("documents").find({}).toArray();
             return result;
         } catch (error) {
@@ -16,6 +15,7 @@ const docs = {
 
     getOne: async function getOne(id) {
         try {
+            const db = getDb();
             const result = await db
                 .collection("documents")
                 .findOne({ _id: new ObjectId(id) });
@@ -28,6 +28,7 @@ const docs = {
 
     addOne: async function addOne(body) {
         try {
+            const db = getDb();
             const result = await db.collection("documents").insertOne({
                 title: body.title,
                 content: body.content,
@@ -42,6 +43,7 @@ const docs = {
 
     updateOne: async function updateOne(id, body) {
         try {
+            const db = getDb();
             const result = await db.collection("documents").updateOne(
                 { _id: new ObjectId(id) },
                 {
@@ -61,6 +63,7 @@ const docs = {
 
     deleteOne: async function deleteOne(id) {
         try {
+            const db = getDb();
             const result = await db
                 .collection("documents")
                 .deleteOne({ _id: new ObjectId(id) });

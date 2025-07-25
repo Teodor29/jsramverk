@@ -4,7 +4,6 @@ let client;
 let db;
 
 async function openDb() {
-    console.log("openDb");
     if (!client) {
         try {
             let url = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.vcuu1.mongodb.net?retryWrites=true&w=majority`;
@@ -14,12 +13,10 @@ async function openDb() {
             }
 
             client = await MongoClient.connect(url);
-
             db = client.db("jsramverk");
             console.log("Connected to MongoDB");
-
         } catch (error) {
-            console.error('Failed to connect to MongoDB:', error);
+            console.error("Failed to connect to MongoDB:", error);
             throw error;
         }
     }
@@ -32,11 +29,18 @@ async function closeDb() {
             await client.close();
             console.log("MongoDB connection closed");
         } catch (error) {
-            console.error('Failed to close MongoDB connection:', error);
+            console.error("Failed to close MongoDB connection:", error);
         }
         client = null;
         db = null;
     }
 }
 
-export { openDb, closeDb };
+function getDb() {
+    if (!db) {
+        throw new Error("Database not connected. Call openDb() first.");
+    }
+    return db;
+}
+
+export { openDb, closeDb, getDb };
