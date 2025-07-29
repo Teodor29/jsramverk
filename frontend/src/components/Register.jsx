@@ -31,8 +31,8 @@ function Register({ apiUrl }) {
             if (!response.ok) {
                 throw new Error(data.error || "Registration failed");
             }
-
             console.log("Registration successful:", data);
+            navigate("/");
         } catch (error) {
             setError(error.message);
             console.error("Failed to register", error);

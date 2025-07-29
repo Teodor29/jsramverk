@@ -5,15 +5,25 @@ function Document({ apiUrl }) {
     const { id } = useParams();
     const navigate = useNavigate();
     const [document, setDocument] = useState({ title: "", content: "" });
+    const [shareEmail, setShareEmail] = useState("");
 
     useEffect(() => {
         async function fetchDocument() {
             try {
-                const response = await fetch(`${apiUrl}/docs/${id}`);
+                const token = sessionStorage.getItem("token");
+                const response = await fetch(`${apiUrl}/docs/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (!response.ok) {
+                    console.error("Failed to fetch document");
+                    return;
+                }
                 const data = await response.json();
                 setDocument(data);
-            } catch (err) {
-                console.error(err);
+            } catch (error) {
+                console.error("Failed to fetch document", error);
             }
         }
 
@@ -28,9 +38,11 @@ function Document({ apiUrl }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const token = sessionStorage.getItem("token");
             const response = await fetch(`${apiUrl}/docs/${id}`, {
                 method: "PUT",
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(document),
@@ -48,15 +60,34 @@ function Document({ apiUrl }) {
         }
     };
 
+    const handleShare = async () => {
+        console.log("Dela dokumentet med:", shareEmail);
+        try {
+            const token = sessionStorage.getItem("token");
+            const response = await fetch(`${apiUrl}/docs/share/${id}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: shareEmail }),
+            });
+            if (!response.ok) {
+                console.error("Failed to share document");
+                return;
+            }
+            console.log("Document shared successfully");
+        } catch (error) {
+            console.error("Failed to share document", error);
+        }
+    };
+
     if (!document) return <p>Loading...</p>;
 
     return (
-        <div className="card">
-            <h2 className="text-center">Redigera dokument</h2>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label htmlFor="title">Titel</label>
+        <div className="document">
+            <form className="h-full flex flex-col" onSubmit={handleSubmit}>
+                <div className="flex gap-4 mb-4 sm:flex-row flex-col">
                     <input
                         type="text"
                         id="title"
@@ -65,25 +96,36 @@ function Document({ apiUrl }) {
                         onChange={handleChange}
                         placeholder="Titel på dokumentet"
                         required
+                        className="flex-1"
                     />
+                    <button type="submit">Uppdatera dokument</button>
+                </div>
+                <div className="flex gap-4 mb-4 sm:flex-row flex-col">
+                    <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        value={shareEmail}
+                        onChange={(e) => setShareEmail(e.target.value)}
+                        placeholder="Dela med e-post"
+                        required
+                        className="flex-1 m-0"
+                    />
+                    <button type="button" onClick={handleShare}>
+                        Dela dokument
+                    </button>
                 </div>
 
-                <div>
-                    <label htmlFor="content">Innehåll</label>
+                <div className="flex-1 min-h-0">
                     <textarea
                         id="content"
                         name="content"
+                        className="min-h-[calc(100vh-13rem)]"
                         value={document.content || ""}
                         onChange={handleChange}
-                        rows={8}
                         placeholder="Skriv innehållet här"
-                        required
                     />
                 </div>
-
-                <button type="submit" className="w-full">
-                    Uppdatera dokument
-                </button>
             </form>
         </div>
     );

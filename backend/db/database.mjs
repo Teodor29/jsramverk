@@ -6,6 +6,7 @@ let db;
 async function openDb() {
     if (!client) {
         try {
+            console.log("Connecting to MongoDB...");
             let url = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.vcuu1.mongodb.net?retryWrites=true&w=majority`;
 
             if (process.env.NODE_ENV === "test") {

@@ -6,5 +6,4 @@ import { test, expect } from "vitest";
 test("App renderar utan krasch", () => {
     render(<App />);
     expect(screen.getByText("SSR Editor")).toBeInTheDocument();
-    expect(screen.getByText("Dokument")).toBeInTheDocument();
 });

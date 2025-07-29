@@ -9,7 +9,6 @@ router.get("/", (req, res) => {
 
 router.post("/verify", async (req, res) => {
     const result = await auth.verifyToken(req, res);
-    console.log("Token verification result:", result);
     if (result) {
         res.status(200).json({ message: "Token is valid" });
     } else {
