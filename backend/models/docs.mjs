@@ -33,18 +33,34 @@ const docs = {
         }
     },
 
-    getOne: async function getOne(id, userId) {
+    getOne: async function getOne(docId, userEmail) {
         try {
             const db = getDb();
-            const result = await db
-                .collection("users")
-                .findOne({ _id: new ObjectId(userId) });
 
-            if (!result || !result.docs) {
-                return [];
+            const user = await db.collection("users").findOne({
+                "docs._id": new ObjectId(docId),
+            });
+
+            console.log("User found:", user);
+
+            if (!user || !user.docs) {
+                return null;
             }
-            const doc = result.docs.find((doc) => doc._id.toString() === id);
-            return doc;
+
+            const doc = user.docs.find((d) => d._id.toString() === docId);
+
+            if (!doc) {
+                return null;
+            }
+
+            if (
+                user.email === userEmail ||
+                doc.allowed_users.includes(userEmail)
+            ) {
+                return doc;
+            }
+
+            return doc
         } catch (error) {
             console.error("Error fetching document:", error);
             return null;
@@ -109,7 +125,7 @@ const docs = {
             const user = await db
                 .collection("users")
                 .findOne({ _id: new ObjectId(userId) });
-            const doc = user.docs.find((d) => d._id.toString() === docId);
+            const doc = user.docs.find((doc) => doc._id.toString() === docId);
 
             const result = await db.collection("users").updateOne(
                 {

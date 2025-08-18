@@ -19,10 +19,11 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const user = await auth.verifyUser(req, res);
+
     if (!user) {
         return res.status(401).json({ error: "Unauthorized" });
     }
-    const result = await documents.getOne(req.params.id, user._id);
+    const result = await documents.getOne(req.params.id, user.email);
     if (result) {
         res.json(result);
     } else {
