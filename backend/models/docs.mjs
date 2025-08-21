@@ -41,8 +41,6 @@ const docs = {
                 "docs._id": new ObjectId(docId),
             });
 
-            console.log("User found:", user);
-
             if (!user || !user.docs) {
                 return null;
             }

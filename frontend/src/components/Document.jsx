@@ -54,7 +54,7 @@ function Document({ apiUrl }) {
             }
         }
 
-        if (id) {
+        if (id && !socketRef.current) {
             fetchDocument();
         }
     }, [id, apiUrl]);

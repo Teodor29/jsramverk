@@ -24,21 +24,27 @@ app.use(express.json());
 app.use("/api/docs", docs_routes);
 app.use("/api/auth", auth_routes);
 
+const liveDocuments = {};
+
 // don't show the log when it is test
 if (process.env.NODE_ENV !== "test") {
     io.on("connection", (socket) => {
         console.info("User connected, socket ID:", socket.id);
         socket.on("create", (docId) => {
             socket.join(docId);
+            if (liveDocuments[docId]) {
+                socket.emit("documentUpdated", liveDocuments[docId]);
+            }
             console.info(`Socket ${socket.id} joined room: ${docId}`);
         });
 
         socket.on("update", (updatedDoc) => {
-            console.info("Document updated:", updatedDoc);
+            liveDocuments[updatedDoc._id] = updatedDoc;
             socket.to(updatedDoc._id).emit("documentUpdated", updatedDoc);
         });
 
         socket.on("disconnect", () => {
+
             console.info("User disconnected, socket ID:", socket.id);
         });
     });
