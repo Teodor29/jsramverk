@@ -54,7 +54,7 @@ function Document({ apiUrl }) {
             }
         }
 
-        if (id && !socketRef.current) {
+        if (id && socketRef.current.connected) {
             fetchDocument();
         }
     }, [id, apiUrl]);
