@@ -7,6 +7,7 @@ function Document({ apiUrl }) {
     const navigate = useNavigate();
     const [document, setDocument] = useState({ title: "", content: "" });
     const [shareEmail, setShareEmail] = useState("");
+    const [receivedFromSocket, setReceivedFromSocket] = useState(false);
     const socketRef = useRef(null);
 
     useEffect(() => {
@@ -47,8 +48,9 @@ function Document({ apiUrl }) {
                     return;
                 }
                 const data = await response.json();
-                
-                setDocument(data);
+                if (!receivedFromSocket) {
+                    setDocument(data);
+                }
             } catch (error) {
                 console.error("Failed to fetch document", error);
             }
@@ -57,13 +59,14 @@ function Document({ apiUrl }) {
         if (id && socketRef.current.connected) {
             fetchDocument();
         }
-    }, [id, apiUrl]);
+    }, [id, apiUrl, receivedFromSocket]);
 
     useEffect(() => {
         if (socketRef.current) {
             socketRef.current.on("documentUpdated", (updatedDoc) => {
                 if (updatedDoc._id === id) {
                     setDocument(updatedDoc);
+                    setReceivedFromSocket(true);
                 }
             });
         }
