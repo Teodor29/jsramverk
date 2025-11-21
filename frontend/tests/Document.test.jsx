@@ -11,7 +11,7 @@ test("renders Document component", () => {
             <Document />
         </Router>
     );
-    expect(screen.getByText("Titel")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Titel på dokumentet")).toBeInTheDocument();
 });
 
 test("updates document", async () => {
@@ -21,8 +21,8 @@ test("updates document", async () => {
         </Router>
     );
 
-    const titleInput = screen.getByLabelText("Titel");
-    const contentInput = screen.getByLabelText("Innehåll");
+    const titleInput = screen.getByPlaceholderText("Titel på dokumentet");
+    const contentInput = screen.getByPlaceholderText("Skriv innehållet här");
     const submitButton = screen.getByRole("button", {
         name: "Uppdatera dokument",
     });
