@@ -9,11 +9,14 @@ function Document({ apiUrl }) {
   const [shareEmail, setShareEmail] = useState("");
   const [receivedFromSocket, setReceivedFromSocket] = useState(false);
   const socketRef = useRef(null);
+  const socketURL =
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://jsramverk-editor-teli21-g8dfgkbabgfygce2.swedencentral-01.azurewebsites.net";
+    
+  console.log("Using socket URL:", socketURL);
 
   useEffect(() => {
-    socketRef.current = io(
-      import.meta.env.VITE_BACKEND_URL || "http://localhost:1337"
-    );
+    socketRef.current = io(socketURL);
 
     socketRef.current.on("connect", () => {
       console.log("Connected to socket server");
