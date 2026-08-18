@@ -16,20 +16,11 @@ Run the project is using Docker Compose:
     git clone https://github.com/Teodor29/jsramverk
     ```
 
-2. Create .env files:
+2. Create .env files from `example.env`:
 
-    jsramverk/backend/.env:
+    jsramverk/backend/.env
 
-    ```bash
-    ATLAS_USERNAME=<your_atlas_username>
-    ATLAS_PASSWORD=<your_atlas_password>
-    ```
-
-    jsramverk/frontend/.env:
-
-    ```bash
-    VITE_API_URL="http://localhost:1337/api"
-    ```
+    jsramverk/frontend/.env
 
 3. Navigate to the project folder:
 
@@ -71,13 +62,7 @@ To run the backend and frontend locally:
     npm install
     ```
 
-3. Create a `.env` file
-   jsramverk/backend/.env:
-
-    ```bash
-    ATLAS_USERNAME=<your_atlas_username>
-    ATLAS_PASSWORD=<your_atlas_password>
-    ```
+3. Create a `.env` file from `example.env`
 
 4. Start the backend server:
     ```bash
@@ -98,8 +83,7 @@ To run the backend and frontend locally:
     npm install
     ```
 
-3. Create a `.env` file:
-    jsramverk/backend/.env:
+3. Create a `.env` file from `example.env`
 
     ```bash
     VITE_API_URL="http://localhost:1337/api"

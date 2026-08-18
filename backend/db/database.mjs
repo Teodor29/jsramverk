@@ -7,7 +7,7 @@ async function openDb() {
     console.log("openDb");
     if (!client) {
         try {
-            let url = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.vcuu1.mongodb.net?retryWrites=true&w=majority`;
+            let url = process.env.MONGODB_URI
 
             if (process.env.NODE_ENV === "test") {
                 url = "mongodb://localhost:27017/test";
