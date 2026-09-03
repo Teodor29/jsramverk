@@ -6,47 +6,29 @@ Project for DV1677 JSRamverk.
 
 ## Getting Started
 
-### Run with Docker
-
-Run the project is using Docker Compose:
-
 1. Clone the repository:
 
     ```bash
     git clone https://github.com/Teodor29/jsramverk
+    cd jsramverk
     ```
 
 2. Create .env files from `example.env`:
 
-    jsramverk/backend/.env
+    `jsramverk/backend/.env`
 
-    jsramverk/frontend/.env
+    `jsramverk/frontend/.env`
 
-3. Navigate to the project folder:
+### Run with Docker
 
-    ```bash
-    cd jsramverk
-    ```
+Run the project is using Docker Compose:
 
-4. Start the services:
-    ```bash
     docker compose up --build
-    ```
 
 ### Running Locally
 
 To run the backend and frontend locally:
 
-1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/Teodor29/jsramverk
-    ```
-
-2. Navigate to the project folder:
-    ```bash
-    cd jsramverk
-    ```
 
 #### Backend Setup
 
@@ -62,9 +44,7 @@ To run the backend and frontend locally:
     npm install
     ```
 
-3. Create a `.env` file from `example.env`
-
-4. Start the backend server:
+3. Start the backend server:
     ```bash
     npm start
     ```
@@ -83,14 +63,7 @@ To run the backend and frontend locally:
     npm install
     ```
 
-3. Create a `.env` file from `example.env`
-
-    ```bash
-    VITE_API_URL="http://localhost:1337/api"
-    ```
-
-4. Start the development server:
+3. Start the development server:
     ```bash
     npm run dev
     ```
-
