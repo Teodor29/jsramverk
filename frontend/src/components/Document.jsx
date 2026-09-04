@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+import { getDocumentById, updateDocument } from "../services/document"
 
-function Document({ apiUrl }) {
+function Document() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [document, setDocument] = useState({ title: "", content: "" })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch(`${apiUrl}/${id}`)
-      .then((res) => res.json())
-      .then((data) => setDocument(data))
-      .catch((err) => console.error(err))
-  }, [id, apiUrl])
+    const fetchDocumentById = async () => {
+      try {
+        const data = await getDocumentById(id)
+        setDocument(data)
+      } catch (error) {
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDocumentById()
+  }, [id])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -20,28 +31,29 @@ function Document({ apiUrl }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
+    setError(null)
     try {
-      const response = await fetch(`${apiUrl}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(document),
-      })
-      if (!response.ok) {
-        console.error("Failed to update document")
-        return
-      }
-
+      await updateDocument(id, document)
       navigate("/")
-      window.location.reload()
     } catch (error) {
-      console.error("Failed to update document", error)
-      return
+      setError(error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
-  if (!document) return <p>Loading...</p>
+  if (loading) {
+    return <p>Laddar dokument...</p>
+  }
+
+  if (error) {
+    return <p>Ett fel uppstod: {error}</p>
+  }
+
+  if (!document) {
+    return <p>Dokumentet hittades inte.</p>
+  }
 
   return (
     <div className="max-w-xl mx-auto mt-8 dark:bg-dark3 rounded-xl shadow p-6 space-y-6">
