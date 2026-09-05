@@ -24,6 +24,8 @@ const port = process.env.PORT || 1337
 
 app.use(cors())
 app.use(express.json())
+app.use(cors())
+app.use(express.json())
 
 app.use("/api/docs", docs_routes)
 app.use("/api/auth", auth_routes)

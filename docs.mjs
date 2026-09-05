@@ -41,18 +41,16 @@ const docs = {
 
   updateOne: async function updateOne(id, body) {
     try {
-      const result = await db
-        .collection("documents")
-        .updateOne(
-          { _id: new ObjectId(id) },
-          {
-            $set: {
-              title: body.title,
-              content: body.content,
-              created_at: new Date(),
-            },
+      const result = await db.collection("documents").updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            title: body.title,
+            content: body.content,
+            created_at: new Date(),
           },
-        )
+        },
+      )
       return result
     } catch (error) {
       console.error(error)

@@ -51,3 +51,4 @@ function DocumentList({ documents, apiUrl }) {
 }
 
 export default DocumentList
+export default DocumentList

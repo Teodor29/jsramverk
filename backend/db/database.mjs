@@ -1,5 +1,8 @@
 import { MongoClient } from "mongodb"
+import { MongoClient } from "mongodb"
 
+let client
+let db
 let client
 let db
 
