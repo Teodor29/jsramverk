@@ -191,4 +191,3 @@ function Document({ apiUrl }) {
 }
 
 export default Document
-export default Document

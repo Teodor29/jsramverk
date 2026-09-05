@@ -1,8 +1,5 @@
 import { MongoClient } from "mongodb"
-import { MongoClient } from "mongodb"
 
-let client
-let db
 let client
 let db
 
@@ -17,7 +14,7 @@ async function openDb() {
       }
 
       client = await MongoClient.connect(url)
-      db = client.db("jsramverk")
+      db = client.db()
       console.log("Connected to MongoDB")
     } catch (error) {
       console.error("Failed to connect to MongoDB:", error)

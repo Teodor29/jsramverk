@@ -6,7 +6,6 @@ import DocumentList from "./components/DocumentList"
 import Login from "./components/Login"
 import Register from "./components/Register"
 import ProtectedRoute from "./components/ProtectedRoute"
-import { use } from "react"
 
 function App() {
   const [documents, setDocuments] = useState([])
@@ -108,5 +107,4 @@ function App() {
   )
 }
 
-export default App
 export default App

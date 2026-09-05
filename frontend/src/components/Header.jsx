@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { Link } from "react-router-dom"
 
 function Header({ isLoggedIn, setIsLoggedIn }) {
   return (
@@ -35,5 +34,4 @@ function Header({ isLoggedIn, setIsLoggedIn }) {
   )
 }
 
-export default Header
 export default Header
