@@ -3,26 +3,35 @@ import userEvent from "@testing-library/user-event"
 import { BrowserRouter as Router } from "react-router-dom"
 import "@testing-library/jest-dom"
 import Document from "../src/components/Document"
-import { test, expect } from "vitest"
+import { test, expect, vi } from "vitest"
+import { getDocumentById, updateDocument } from "../src/services/document"
 
-test("renders Document component", () => {
+vi.mock("../src/services/document", () => ({
+  getDocumentById: vi.fn(),
+  updateDocument: vi.fn(),
+}))
+
+test("renders Document component", async () => {
+  getDocumentById.mockResolvedValueOnce({ title: "", content: "" })
   render(
     <Router>
       <Document />
     </Router>,
   )
-  expect(screen.getByText("Titel")).toBeInTheDocument()
+  expect(await screen.findByText("Titel")).toBeInTheDocument()
 })
 
 test("updates document", async () => {
+  getDocumentById.mockResolvedValueOnce({ title: "", content: "" })
+  updateDocument.mockResolvedValueOnce({})
   render(
     <Router>
       <Document />
     </Router>,
   )
 
-  const titleInput = screen.getByLabelText("Titel")
-  const contentInput = screen.getByLabelText("Innehåll")
+  const titleInput = await screen.findByLabelText("Titel")
+  const contentInput = await screen.findByLabelText("Innehåll")
   const submitButton = screen.getByRole("button", {
     name: "Uppdatera dokument",
   })

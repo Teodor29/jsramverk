@@ -1,4 +1,3 @@
-import { jest } from "@jest/globals"
 import request from "supertest"
 import app from "../app.mjs"
 import { closeDb } from "../db/database.mjs"
@@ -52,7 +51,7 @@ describe("Docs API", () => {
 })
 
 describe("Docs API Error Handling", () => {
-  test("GET /api/:id", async () => {
+  test("GET /api/:id with invalid ID", async () => {
     const res = await request(app).get("/api/invalid-id")
     expect(res.statusCode).toBe(404)
     expect(res.body).toHaveProperty("error", "Document not found")

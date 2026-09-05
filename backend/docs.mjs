@@ -16,9 +16,14 @@ const docs = {
 
   getOne: async function getOne(id) {
     try {
+      if (!ObjectId.isValid(id)) {
+        return null
+      }
+
       const result = await db
         .collection("documents")
         .findOne({ _id: new ObjectId(id) })
+
       return result
     } catch (error) {
       console.error("Error fetching document:", error)

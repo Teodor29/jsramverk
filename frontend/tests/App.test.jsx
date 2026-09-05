@@ -3,8 +3,8 @@ import "@testing-library/jest-dom"
 import App from "../src/App"
 import { test, expect } from "vitest"
 
-test("App renderar utan krasch", () => {
+test("App renderar utan krasch", async () => {
   render(<App />)
-  expect(screen.getByText("SSR Editor")).toBeInTheDocument()
-  expect(screen.getByText("Dokument")).toBeInTheDocument()
+  expect(await screen.findByText("SSR Editor")).toBeInTheDocument()
+  expect(await screen.findByText("Dokument")).toBeInTheDocument()
 })
