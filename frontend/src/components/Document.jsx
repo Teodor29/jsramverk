@@ -1,11 +1,18 @@
 import { useState, useEffect, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { io } from "socket.io-client"
+import {
+  getDocumentById,
+  shareDocument,
+  updateDocument,
+} from "../services/document"
 
-function Document({ apiUrl }) {
+function Document() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [document, setDocument] = useState({ title: "", content: "" })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [shareEmail, setShareEmail] = useState("")
   const [receivedFromSocket, setReceivedFromSocket] = useState(false)
   const socketRef = useRef(null)
@@ -42,20 +49,13 @@ function Document({ apiUrl }) {
 
     async function fetchDocument() {
       try {
-        const token = sessionStorage.getItem("token")
-        const response = await fetch(`${apiUrl}/docs/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        if (!response.ok) {
-          console.error("Failed to fetch document")
-          return
-        }
-        const data = await response.json()
-        setDocument(data)
+        setLoading(true)
+        setDocument(await getDocumentById(id))
       } catch (error) {
         console.error("Failed to fetch document", error)
+        setError(error.message)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -83,7 +83,7 @@ function Document({ apiUrl }) {
       }
       clearTimeout(timeout)
     }
-  }, [id, apiUrl])
+  }, [id])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -98,20 +98,7 @@ function Document({ apiUrl }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const token = sessionStorage.getItem("token")
-      const response = await fetch(`${apiUrl}/docs/${id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(document),
-      })
-      if (!response.ok) {
-        console.error("Failed to update document")
-        return
-      }
-
+      await updateDocument(id, document)
       navigate("/")
       window.location.reload()
     } catch (error) {
@@ -123,26 +110,24 @@ function Document({ apiUrl }) {
   const handleShare = async () => {
     console.log("Dela dokumentet med:", shareEmail)
     try {
-      const token = sessionStorage.getItem("token")
-      const response = await fetch(`${apiUrl}/docs/share/${id}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: shareEmail }),
-      })
-      if (!response.ok) {
-        console.error("Failed to share document")
-        return
-      }
+      await shareDocument(id, shareEmail)
       console.log("Document shared successfully")
     } catch (error) {
       console.error("Failed to share document", error)
     }
   }
 
-  if (!document) return <p>Loading...</p>
+  if (loading) {
+    return <p>Laddar dokument...</p>
+  }
+
+  if (error) {
+    return <p>Ett fel uppstod: {error}</p>
+  }
+
+  if (!document) {
+    return <p>Dokumentet hittades inte.</p>
+  }
 
   return (
     <div className="document">

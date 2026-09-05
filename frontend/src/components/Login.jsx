@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { login } from "../services/auth"
 
-function Login({ apiUrl }) {
+function Login() {
   const navigate = useNavigate()
   const [error, setError] = useState(null)
 
@@ -15,22 +16,9 @@ function Login({ apiUrl }) {
     e.preventDefault()
     try {
       setError(null)
-      const response = await fetch(`${apiUrl}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: e.target.email.value,
-          password: e.target.password.value,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed")
-      }
+      const email = e.target.email.value
+      const password = e.target.password.value
+      const data = await login(email, password)
 
       console.log("Login successful:", data)
 

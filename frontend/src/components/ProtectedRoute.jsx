@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 
 function ProtectedRoute({ children }) {
   const isLoggedIn = sessionStorage.getItem("loggedIn")
@@ -8,7 +8,7 @@ function ProtectedRoute({ children }) {
     return <Navigate to="/login" replace />
   }
 
-  return children
+  return <Outlet />
 }
 
 export default ProtectedRoute

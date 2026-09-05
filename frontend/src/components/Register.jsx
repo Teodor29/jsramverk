@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { register } from "../services/auth"
 
-function Register({ apiUrl }) {
+function Register() {
   const navigate = useNavigate()
   const [error, setError] = useState(null)
 
@@ -15,23 +16,12 @@ function Register({ apiUrl }) {
     e.preventDefault()
     try {
       setError(null)
-      const response = await fetch(`${apiUrl}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: e.target.email.value,
-          password: e.target.password.value,
-        }),
-      })
+      const email = e.target.email.value
+      const password = e.target.password.value
+      const data = await register(email, password)
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || "Registration failed")
-      }
       console.log("Registration successful:", data)
+
       navigate("/")
     } catch (error) {
       setError(error.message)

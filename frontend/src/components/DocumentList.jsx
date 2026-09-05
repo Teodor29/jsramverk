@@ -1,30 +1,46 @@
 import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { createDocument } from "../services/document"
+import { getDocuments } from "../services/document"
 
-function DocumentList({ documents, apiUrl }) {
-  console.log("DocumentList documents:", documents)
+function DocumentList() {
+  const [documents, setDocuments] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const data = await getDocuments()
+        setDocuments(data)
+      } catch (error) {
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDocuments()
+  }, [])
 
   const handleCreateDocument = async () => {
     try {
-      const token = sessionStorage.getItem("token")
-      const response = await fetch(`${apiUrl}/docs`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: "Untitled Document",
-          content: "",
-        }),
+      await createDocument({
+        title: "Untitled Document",
+        content: "",
       })
-      if (!response.ok) {
-        console.error("Failed to create document")
-        return
-      }
       window.location.reload()
     } catch (error) {
       console.error("Failed to create document", error)
     }
+  }
+
+  if (loading) {
+    return <p>Laddar dokument...</p>
+  }
+
+  if (error) {
+    return <p>Ett fel uppstod: {error}</p>
   }
 
   return (
