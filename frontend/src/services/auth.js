@@ -1,7 +1,7 @@
 import { api } from "./client"
 
-export async function verifyToken() {
-  const response = await api.post("/auth/verify")
+export async function getUser() {
+  const response = await api.get("/auth/me")
   return response.data
 }
 

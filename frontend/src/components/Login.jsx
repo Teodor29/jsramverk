@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { login } from "../services/auth"
+import { useAuth } from "../context/AuthContext"
 
 function Login() {
   const navigate = useNavigate()
+  const { isAuthenticated, loading, login } = useAuth()
   const [error, setError] = useState(null)
 
-  if (sessionStorage.getItem("loggedIn")) {
+  if (loading) {
+    return <p>Laddar...</p>
+  }
+
+  if (isAuthenticated) {
     navigate("/")
     return null
   }
@@ -18,19 +23,11 @@ function Login() {
       setError(null)
       const email = e.target.email.value
       const password = e.target.password.value
-      const data = await login(email, password)
-
-      console.log("Login successful:", data)
-
-      sessionStorage.setItem("token", data.token)
-      sessionStorage.setItem("loggedIn", true)
-      sessionStorage.setItem("user", JSON.stringify(data.user))
+      await login(email, password)
 
       navigate("/")
-      window.location.reload()
     } catch (error) {
-      setError(error.message)
-      console.error("Failed to login", error)
+      setError("Felaktig e-post eller lösenord")
       return
     }
   }

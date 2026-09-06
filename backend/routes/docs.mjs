@@ -5,7 +5,7 @@ import auth from "../models/auth.mjs"
 const router = express.Router()
 
 router.get("/", async (req, res) => {
-  const user = await auth.verifyUser(req, res)
+  const user = await auth.getUser(req, res)
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" })
   }
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-  const user = await auth.verifyUser(req, res)
+  const user = await auth.getUser(req, res)
 
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" })
@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-  const user = await auth.verifyUser(req, res)
+  const user = await auth.getUser(req, res)
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" })
   }
@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
 })
 
 router.put("/:id", async (req, res) => {
-  const user = await auth.verifyUser(req, res)
+  const user = await auth.getUser(req, res)
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" })
   }
@@ -70,7 +70,7 @@ router.put("/:id", async (req, res) => {
 })
 
 router.post("/share/:id", async (req, res) => {
-  const user = await auth.verifyUser(req, res)
+  const user = await auth.getUser(req, res)
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" })
   }

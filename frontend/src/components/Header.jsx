@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 
-function Header({ isLoggedIn, setIsLoggedIn }) {
+function Header() {
+  const { isAuthenticated, logout } = useAuth()
+
   return (
     <header className="bg-dark">
       <div className="p-4 container m-auto flex gap-4">
@@ -10,18 +13,8 @@ function Header({ isLoggedIn, setIsLoggedIn }) {
           </Link>
         </h1>
         <nav className="flex items-center ml-auto gap-4">
-          {isLoggedIn ? (
-            <>
-              <a
-                onClick={() => {
-                  sessionStorage.clear()
-                  setIsLoggedIn(false)
-                  window.location.reload()
-                }}
-              >
-                Logga ut
-              </a>
-            </>
+          {isAuthenticated ? (
+              <Link onClick={logout}>logga ut</Link>
           ) : (
             <>
               <Link to="/login">Logga in</Link>

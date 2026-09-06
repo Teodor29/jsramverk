@@ -7,12 +7,12 @@ router.get("/", (req, res) => {
   res.json({ message: "Auth API is working" })
 })
 
-router.post("/verify", async (req, res) => {
-  const result = await auth.verifyToken(req, res)
+router.get("/me", async (req, res) => {
+  const result = await auth.getUser(req, res)
   if (result) {
-    res.status(200).json({ message: "Token is valid" })
+    res.status(200).json(result)
   } else {
-    res.status(401).json({ error: "Invalid token" })
+    res.status(401).json({ error: "Unauthorized" })
   }
 })
 

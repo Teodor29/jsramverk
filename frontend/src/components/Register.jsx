@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { useAuth } from "../context/AuthContext"
 import { register } from "../services/auth"
 
 function Register() {
   const navigate = useNavigate()
+  const { isAuthenticated, loading } = useAuth()
   const [error, setError] = useState(null)
 
-  if (sessionStorage.getItem("loggedIn")) {
+  if (loading) {
+    return <p>Laddar...</p>
+  }
+
+  if (isAuthenticated) {
     navigate("/")
     return null
   }

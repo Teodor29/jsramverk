@@ -1,10 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 
-function ProtectedRoute({ children }) {
-  const isLoggedIn = sessionStorage.getItem("loggedIn")
-  const token = sessionStorage.getItem("token")
+function ProtectedRoute() {
+  const { isAuthenticated, loading } = useAuth()
 
-  if (!isLoggedIn || !token) {
+  if (loading) {
+    return <p>Laddar...</p>
+  }
+
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />
   }
 

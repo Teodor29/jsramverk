@@ -13,7 +13,7 @@ const mg = mailgun.client({
 })
 
 const auth = {
-  verifyUser: async function verifyUser(req, res) {
+  getUser: async function getUser(req, res) {
     const token = req.headers.authorization?.split(" ")[1]
     const jwtSecret = process.env.JWT_SECRET
     try {
@@ -21,25 +21,13 @@ const auth = {
       const db = getDb()
       const user = await db
         .collection("users")
-        .findOne({ email: decoded.email })
+        .findOne({ email: decoded.email }, { projection: { password: 0 } })
       if (user) {
         return user
       }
       return false
     } catch (error) {
       console.error("Error verifying user:", error)
-      return false
-    }
-  },
-
-  verifyToken: async function verifyToken(req, res) {
-    const token = req.headers.authorization?.split(" ")[1]
-    const jwtSecret = process.env.JWT_SECRET
-
-    try {
-      const decoded = jwt.verify(token, jwtSecret)
-      return true
-    } catch (error) {
       return false
     }
   },
@@ -80,12 +68,11 @@ const auth = {
         const payload = { email: user.email }
         const token = jwt.sign(payload, jwtSecret, { expiresIn: "1h" })
         return {
-          token: token,
+          token,
           user: {
             email: user.email,
-            created_at: user.created_at,
+            _id: user._id,
           },
-          docs: user.docs || [],
         }
       }
       console.error("Invalid password")
