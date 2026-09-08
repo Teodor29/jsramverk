@@ -1,17 +1,23 @@
 import { render, screen } from "@testing-library/react"
-import userEvent from "@testing-library/user-event"
 import { BrowserRouter as Router } from "react-router-dom"
 import "@testing-library/jest-dom"
 import Register from "../src/components/Register"
-import { test, expect } from "vitest"
+import { test, expect, vi } from "vitest"
 
-const apiUrl = "http://example.com/api"
+const auth = vi.hoisted(() => ({
+  isAuthenticated: false,
+  loading: false,
+}))
+
+vi.mock("../src/context/AuthContext", () => ({
+  useAuth: () => auth,
+}))
 
 test("renders Register component", () => {
   sessionStorage.clear()
   render(
     <Router>
-      <Register apiUrl={apiUrl} />
+      <Register />
     </Router>,
   )
   expect(
@@ -19,20 +25,12 @@ test("renders Register component", () => {
   ).toBeInTheDocument()
 })
 
-test("updates form inputs", async () => {
-  sessionStorage.clear()
+test("shows loading state", () => {
+  auth.loading = true
   render(
     <Router>
-      <Register apiUrl={apiUrl} />
+      <Register />
     </Router>,
   )
-
-  const emailInput = screen.getByLabelText("E-post")
-  const passwordInput = screen.getByLabelText("Lösenord")
-
-  await userEvent.type(emailInput, "test@gmail.com")
-  await userEvent.type(passwordInput, "test123")
-
-  expect(emailInput.value).toBe("test@gmail.com")
-  expect(passwordInput.value).toBe("test123")
+  expect(screen.getByText("Laddar...")).toBeInTheDocument()
 })

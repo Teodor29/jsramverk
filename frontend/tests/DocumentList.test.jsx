@@ -21,7 +21,7 @@ test("renders DocumentList component without documents", async () => {
   ).toBeInTheDocument()
 })
 
-test("renders DocumentList component with documents", async () => {
+test("renders DocumentList component", async () => {
   getDocuments.mockResolvedValueOnce([
     { _id: "1", title: "Dokument 1" },
     { _id: "2", title: "Dokument 2" },
@@ -35,4 +35,15 @@ test("renders DocumentList component with documents", async () => {
 
   expect(await screen.findByText("Dokument 1")).toBeInTheDocument()
   expect(await screen.findByText("Dokument 2")).toBeInTheDocument()
+})
+
+test("renders document loading error", async () => {
+  getDocuments.mockRejectedValueOnce(new Error("failed"))
+  render(
+    <Router>
+      <DocumentList />
+    </Router>,
+  )
+
+  expect(await screen.findByText("Ett fel uppstod: failed")).toBeInTheDocument()
 })

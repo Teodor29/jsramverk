@@ -26,7 +26,7 @@ function Login() {
       await login(email, password)
 
       navigate("/")
-    } catch (error) {
+    } catch {
       setError("Felaktig e-post eller lösenord")
       return
     }

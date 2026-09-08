@@ -14,7 +14,7 @@ function Header() {
         </h1>
         <nav className="flex items-center ml-auto gap-4">
           {isAuthenticated ? (
-              <Link onClick={logout}>logga ut</Link>
+            <Link onClick={logout}>logga ut</Link>
           ) : (
             <>
               <Link to="/login">Logga in</Link>

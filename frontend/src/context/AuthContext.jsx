@@ -1,6 +1,8 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react"
+import PropTypes from "prop-types"
 import { getUser, login as loginService } from "../services/auth"
-import { getToken, removeToken, setToken } from "../services/token"
+import { getToken, clearToken, setToken } from "../services/token"
 
 const AuthContext = createContext(null)
 
@@ -11,7 +13,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function checkAuth() {
       const token = getToken()
-      console.log("Checking auth, token:", token)
       if (!token) {
         setLoading(false)
         return
@@ -21,7 +22,7 @@ export function AuthProvider({ children }) {
         setUser(user)
       } catch (error) {
         console.error("Failed to fetch user:", error)
-        removeToken()
+        clearToken()
         setUser(null)
       } finally {
         setLoading(false)
@@ -37,7 +38,7 @@ export function AuthProvider({ children }) {
   }
 
   const logout = () => {
-    removeToken()
+    clearToken()
     setUser(null)
   }
 
@@ -54,6 +55,10 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   )
+}
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export function useAuth() {

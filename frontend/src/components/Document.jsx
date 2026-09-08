@@ -42,7 +42,7 @@ function Document() {
         socketRef.current.disconnect()
       }
     }
-  }, [id])
+  }, [id, socketURL])
 
   useEffect(() => {
     let timeout
@@ -83,7 +83,7 @@ function Document() {
       }
       clearTimeout(timeout)
     }
-  }, [id])
+  }, [id, receivedFromSocket])
 
   const handleChange = (e) => {
     const { name, value } = e.target
