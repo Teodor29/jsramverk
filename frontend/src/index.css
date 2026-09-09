@@ -5,7 +5,18 @@
   --color-text-secondary: #a0a0a0;
   --color-text-heading: #f0f0f0;
   --color-text-link: #83b552;
+  --color-text-primary: #c0c0c0;
+  --color-text-secondary: #a0a0a0;
+  --color-text-heading: #f0f0f0;
+  --color-text-link: #83b552;
 
+  --color-accent-text: #b8de93;
+  --color-accent-hover: #83b552;
+  --color-accent: #83b552;
+  --color-accent-button: #658b3fff;
+  --color-link: #83b552;
+  --color-outline: #545454;
+  --color-red: #ff2718;
   --color-accent-text: #b8de93;
   --color-accent-hover: #83b552;
   --color-accent: #83b552;
@@ -20,7 +31,14 @@
   --color-dark4: #3a3a3a;
   --color-dark5: #4a4a4a;
   --color-dark6: #5a5a5a;
+  --color-dark: #0a0a0a;
+  --color-dark2: #1a1a1a;
+  --color-dark3: #2a2a2a;
+  --color-dark4: #3a3a3a;
+  --color-dark5: #4a4a4a;
+  --color-dark6: #5a5a5a;
 
+  --font-display: "Inter", sans-serif;
   --font-display: "Inter", sans-serif;
 }
 
@@ -28,32 +46,62 @@
   body {
     @apply bg-dark2 text-text-primary font-display;
   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-text-heading font-display;
+  }
   h1 {
-    @apply text-text-heading text-4xl font-bold mb-4;
+    @apply text-4xl font-bold mb-4;
   }
   h2 {
-    @apply text-text-heading text-2xl font-semibold mb-3;
+    @apply text-2xl font-semibold mb-2;
   }
   h3 {
-    @apply text-text-heading text-xl font-semibold mb-2;
+    @apply text-xl font-semibold mb-2;
+  }
+  h4 {
+    @apply text-lg font-semibold mb-1;
   }
   p {
-    @apply text-base text-text-secondary mb-4;
+    @apply text-base text-text-secondary m-0;
   }
   button {
     @apply bg-accent-button text-text-heading font-semibold py-2 px-4 rounded hover:bg-accent-hover cursor-pointer transition-colors;
   }
   input,
   textarea {
-    @apply w-full p-4 bg-dark2 text-text-primary border border-outline rounded-md py-2 px-3 transition-colors;
+    @apply w-full p-2 px-4 bg-dark4 text-text-primary border border-outline rounded-md transition-colors;
   }
   label {
     @apply text-text-primary font-semibold mb-2 block;
   }
   a {
-    @apply text-link hover:underline;
+    @apply text-link hover:underline hover:cursor-pointer;
   }
   header a {
-    @apply text-text-secondary;
+    @apply text-text-heading hover:text-accent transition-colors hover:no-underline;
+  }
+  form {
+    @apply space-y-4;
+  }
+}
+
+@layer components {
+  .card {
+    @apply max-w-xl mx-auto dark:bg-dark3 rounded-xl shadow p-6 space-y-6;
+  }
+  .document {
+    @apply h-full flex flex-col;
+  }
+  .document input,
+  .document textarea {
+    @apply focus:outline-none bg-dark2;
+  }
+  .link {
+    @apply text-accent hover:text-accent-hover transition-colors;
   }
 }

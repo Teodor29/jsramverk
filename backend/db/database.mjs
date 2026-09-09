@@ -4,16 +4,16 @@ let client
 let db
 
 async function openDb() {
-  console.log("openDb")
   if (!client) {
     try {
+      console.log("Connecting to MongoDB...")
       let url = process.env.MONGODB_URI
 
       if (process.env.NODE_ENV === "test") {
         url = "mongodb://localhost:27017/test"
       }
-      client = await MongoClient.connect(url)
 
+      client = await MongoClient.connect(url)
       db = client.db()
       console.log("Connected to MongoDB")
     } catch (error) {
@@ -37,4 +37,11 @@ async function closeDb() {
   }
 }
 
-export { openDb, closeDb }
+function getDb() {
+  if (!db) {
+    throw new Error("Database not connected. Call openDb() first.")
+  }
+  return db
+}
+
+export { openDb, closeDb, getDb }
