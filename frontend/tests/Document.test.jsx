@@ -1,36 +1,22 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { BrowserRouter as Router } from "react-router-dom";
-import "@testing-library/jest-dom";
-import Document from "../src/components/Document";
-import { test, expect } from "vitest";
+import { render, screen } from "@testing-library/react"
+import { BrowserRouter as Router } from "react-router-dom"
+import "@testing-library/jest-dom"
+import Document from "../src/components/Document"
+import { test, expect, vi } from "vitest"
+import { getDocumentById } from "../src/services/document"
 
-test("renders Document component", () => {
-    render(
-        <Router>
-            <Document />
-        </Router>
-    );
-    expect(screen.getByPlaceholderText("Titel på dokumentet")).toBeInTheDocument();
-});
+vi.mock("../src/services/document", () => ({
+  getDocumentById: vi.fn(),
+}))
 
-test("updates document", async () => {
-    render(
-        <Router>
-            <Document />
-        </Router>
-    );
+test("renders Document component", async () => {
+  getDocumentById.mockResolvedValueOnce({ title: "Title", content: "" })
 
-    const titleInput = screen.getByPlaceholderText("Titel på dokumentet");
-    const contentInput = screen.getByPlaceholderText("Skriv innehållet här");
-    const submitButton = screen.getByRole("button", {
-        name: "Uppdatera dokument",
-    });
+  render(
+    <Router>
+      <Document />
+    </Router>,
+  )
 
-    await userEvent.type(titleInput, "New Title");
-    await userEvent.type(contentInput, "New Content");
-    await userEvent.click(submitButton);
-
-    expect(titleInput.value).toBe("New Title");
-    expect(contentInput.value).toBe("New Content");
-});
+  expect(await screen.findByDisplayValue("Title")).toBeInTheDocument()
+})

@@ -3,8 +3,12 @@ networks:
     driver: bridge
 
 services:
+  mongo:
+    image: mongo:5
+    ports:
+      - "27017:27017"
+
   backend:
-    container_name: backend
     build:
       context: ./backend
     ports:
@@ -15,7 +19,6 @@ services:
       - backend/.env
 
   frontend:
-    container_name: frontend
     build:
       context: ./frontend
     ports:
@@ -24,4 +27,3 @@ services:
       - jsramverk
     env_file:
       - frontend/.env
-
