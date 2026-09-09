@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import { AuthProvider } from "./context/AuthContext"
 
 function App() {
-  let basename = "/~teli21/editor/"
+  let basename = "/jsramverk/"
   if (import.meta.env.MODE === "test") {
     basename = "/"
   }
