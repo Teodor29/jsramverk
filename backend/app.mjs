@@ -14,8 +14,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:3000",
-      "https://www.student.bth.se",
-      "https://www.student.bth.se/~teli21/editor",
+      "https://teodor29.github.io/jsramverk",
     ],
     methods: ["GET", "POST"],
   },
