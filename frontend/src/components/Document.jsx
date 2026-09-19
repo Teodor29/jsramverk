@@ -63,6 +63,7 @@ function Document() {
       socketRef.current.on("documentUpdated", (updatedDoc) => {
         if (updatedDoc._id === id) {
           setDocument(updatedDoc)
+          setLoading(false)
           setReceivedFromSocket(true)
           clearTimeout(timeout)
         }

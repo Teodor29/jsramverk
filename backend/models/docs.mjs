@@ -117,11 +117,6 @@ const docs = {
     try {
       const db = getDb()
 
-      const user = await db
-        .collection("users")
-        .findOne({ _id: new ObjectId(userId) })
-      const doc = user.docs.find((doc) => doc._id.toString() === docId)
-
       const result = await db.collection("users").updateOne(
         {
           _id: new ObjectId(userId),
@@ -134,8 +129,8 @@ const docs = {
         },
       )
 
-      if (result.modifiedCount > 0 && doc) {
-        await auth.sendDocumentSharedEmail(email, user.email, doc.title)
+      if (result.modifiedCount > 0) {
+        await auth.sendInviteEmail(email, docId)
       }
 
       return result

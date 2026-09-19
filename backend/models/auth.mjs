@@ -32,18 +32,27 @@ const auth = {
     }
   },
 
-  sendWelcomeEmail: async function sendWelcomeEmail(email) {
+  sendInviteEmail: async function sendInviteEmail(email, docId) {
     try {
+      const url = `${process.env.FRONTEND_URL}/documents/${docId}`
+
+      console.log("Invite URL:", url)
+
       const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
         from: `Jsramverk document editor <noreply@${process.env.MAILGUN_DOMAIN}>`,
         to: [email],
-        subject: "Välkommen!",
-        text: `Här kommer inbjudan till Jsramverk dokumenthanterare från ${email}`,
+        subject: "Ett dokument har delats med dig!",
+        html: `
+        <p>Du har fått tillgång till ett dokument.</p>
+        <a href="${url}">${url}</a>
+      `,
+        text: `Du har fått tillgång till ett dokument: ${url}`,
       })
-      console.log("Welcome email sent:", msg)
+
+      console.log("Document shared email sent:", msg)
       return true
     } catch (error) {
-      console.error("Error sending welcome email:", error)
+      console.error("Error sending document shared email:", error)
       return false
     }
   },
@@ -107,10 +116,6 @@ const auth = {
         created_at: new Date(),
         docs: [],
       })
-
-      if (result.insertedId) {
-        await this.sendWelcomeEmail(email)
-      }
 
       return result
     } catch (error) {
