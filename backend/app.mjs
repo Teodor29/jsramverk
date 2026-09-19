@@ -14,7 +14,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:3000",
-      "https://teodor29.github.io/jsramverk",
+      "https://teodor29.github.io",
     ],
     methods: ["GET", "POST"],
   },
