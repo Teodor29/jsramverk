@@ -33,7 +33,7 @@ function Login() {
   }
 
   return (
-    <div className="card max-w-md">
+    <div className="card min-w-md">
       <h2 className="text-center">Logga in</h2>
       {error && <p className="text-red-500 text-center m-0">{error}</p>}
       <form className="space-y-4" onSubmit={handleSubmit}>
@@ -57,7 +57,7 @@ function Login() {
             required
           />
         </div>
-        <button type="submit" className="w-full">
+        <button type="submit" className="w-full mb-2">
           Logga in
         </button>
       </form>

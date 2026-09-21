@@ -24,3 +24,8 @@ export async function shareDocument(id, email) {
   const response = await api.post(`/docs/share/${id}`, { email })
   return response.data
 }
+
+export async function deleteDocument(id) {
+  const response = await api.delete(`/docs/${id}`)
+  return response.data
+}

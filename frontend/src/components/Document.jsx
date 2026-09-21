@@ -131,7 +131,7 @@ function Document() {
   }
 
   return (
-    <div className="document">
+    <div className="document flex flex-1 flex-col">
       <div className="flex gap-4 mb-4 sm:flex-row flex-col">
         <input
           type="text"
@@ -146,7 +146,7 @@ function Document() {
           Dela dokument
         </button>
       </div>
-      <form className="h-full flex flex-col" onSubmit={handleSubmit}>
+      <form className="flex-1 flex flex-col" onSubmit={handleSubmit}>
         <div className="flex gap-4 mb-4 sm:flex-row flex-col">
           <input
             type="text"
@@ -161,16 +161,13 @@ function Document() {
           <button type="submit">Uppdatera dokument</button>
         </div>
 
-        <div className="flex-1 min-h-0">
-          <textarea
-            id="content"
-            name="content"
-            className="min-h-[calc(100vh-13rem)]"
-            value={document.content || ""}
-            onChange={handleChange}
-            placeholder="Skriv innehållet här"
-          />
-        </div>
+        <textarea
+          id="content"
+          name="content"
+          className="flex-1"
+          value={document.content || ""}
+          onChange={handleChange}
+        />
       </form>
     </div>
   )

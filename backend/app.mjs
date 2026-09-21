@@ -12,17 +12,12 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://teodor29.github.io",
-    ],
+    origin: ["http://localhost:3000", "https://teodor29.github.io"],
     methods: ["GET", "POST"],
   },
 })
 const port = process.env.PORT || 1337
 
-app.use(cors())
-app.use(express.json())
 app.use(cors())
 app.use(express.json())
 

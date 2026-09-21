@@ -41,21 +41,11 @@ const docs = {
         "docs._id": new ObjectId(docId),
       })
 
-      if (!user || !user.docs) {
-        return null
-      }
-
       const doc = user.docs.find((d) => d._id.toString() === docId)
-
-      if (!doc) {
-        return null
-      }
 
       if (user.email === userEmail || doc.allowed_users.includes(userEmail)) {
         return doc
       }
-
-      return doc
     } catch (error) {
       console.error("Error fetching document:", error)
       return null
@@ -89,12 +79,11 @@ const docs = {
     }
   },
 
-  updateOne: async function updateOne(docId, userId, title, content) {
+  updateOne: async function updateOne(docId, title, content) {
     try {
       const db = getDb()
       const result = await db.collection("users").updateOne(
         {
-          _id: new ObjectId(userId),
           "docs._id": new ObjectId(docId),
         },
         {
@@ -140,12 +129,19 @@ const docs = {
     }
   },
 
-  deleteOne: async function deleteOne(id) {
+  deleteOne: async function deleteOne(docId) {
     try {
       const db = getDb()
-      const result = await db
-        .collection("documents")
-        .deleteOne({ _id: new ObjectId(id) })
+
+      const result = await db.collection("users").updateOne(
+        { "docs._id": new ObjectId(docId) },
+        {
+          $pull: {
+            docs: { _id: new ObjectId(docId) },
+          },
+        },
+      )
+
       return result
     } catch (error) {
       console.error("Error deleting document:", error)
