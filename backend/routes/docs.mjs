@@ -57,7 +57,7 @@ router.put("/:id", async (req, res) => {
     return res.status(400).json({ error: "Title and content are required" })
   }
 
-  const result = await documents.updateOne(req.params.id, title, content)
+  const result = await documents.updateOne(req.params.id, user.email, title, content)
   if (result.matchedCount === 0) {
     return res.status(404).json({ error: "Document not found" })
   }
@@ -90,7 +90,7 @@ router.delete("/:id", async (req, res) => {
     return res.status(401).json({ error: "Unauthorized" })
   }
 
-  const result = await documents.deleteOne(req.params.id, user._id)
+  const result = await documents.deleteOne(req.params.id, user.email)
   if (result.deletedCount === 0) {
     return res.status(404).json({ error: "Document not found" })
   }
