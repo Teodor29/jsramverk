@@ -2,7 +2,17 @@
 
 Project for DV1677 JSRamverk.
 
----
+## Tech Stack
+
+- React
+- Tailwind CSS
+- Node.js
+- Express
+- MongoDB
+- Socket.IO
+- Vite
+- Vitest
+- Docker
 
 ## Getting Started
 
@@ -50,7 +60,7 @@ To run the backend and frontend locally:
 
 #### Frontend Setup
 
-1. Open a new terminal and navigate to the jsramverk/frontend folder:
+1. Open a new terminal and navigate to the `jsramverk/frontend` folder:
 
    ```bash
    cd frontend
