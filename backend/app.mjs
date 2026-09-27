@@ -7,6 +7,7 @@ import auth_routes from "./routes/auth.mjs"
 import { openDb, closeDb } from "./db/database.mjs"
 import { Server } from "socket.io"
 import http from "http"
+import authMiddleware from "./middleware/auth.mjs"
 
 const app = express()
 const server = http.createServer(app)
@@ -21,7 +22,7 @@ const port = process.env.PORT || 1337
 app.use(cors())
 app.use(express.json())
 
-app.use("/api/docs", docs_routes)
+app.use("/api/docs", authMiddleware, docs_routes)
 app.use("/api/auth", auth_routes)
 
 const liveDocuments = {}

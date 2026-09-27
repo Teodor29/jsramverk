@@ -30,7 +30,7 @@ function Register() {
 
       navigate("/")
     } catch (error) {
-      setError(error.message)
+      setError(error.response.data.error)
       console.error("Failed to register", error)
       return
     }

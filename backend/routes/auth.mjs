@@ -3,37 +3,53 @@ import auth from "../models/auth.mjs"
 
 const router = express.Router()
 
-router.get("/", (req, res) => {
-  res.json({ message: "Auth API is working" })
-})
-
 router.get("/me", async (req, res) => {
-  const result = await auth.getUser(req, res)
-  if (result) {
+  try {
+    const result = await auth.getUser(req)
+
+    if (!result) {
+      return res.status(401).json({
+        error: "Unauthorized",
+      })
+    }
+
     res.status(200).json(result)
-  } else {
-    res.status(401).json({ error: "Unauthorized" })
+  } catch (error) {
+    console.error("Error getting user:", error)
+
+    res.status(500).json({
+      error: "Internal server error",
+    })
   }
 })
 
 router.post("/login", async (req, res) => {
-  const result = await auth.login(req, res)
-  if (result) {
-    res.status(201).json(result)
-  } else {
-    res.status(401).json({ error: "Invalid username or password" })
+  try {
+    const result = await auth.login(req.body.email, req.body.password)
+
+    return res.status(200).json(result)
+  } catch (error) {
+    console.error("Error logging in:", error)
+
+    return res.status(401).json({
+      error: error.message,
+    })
   }
 })
 
 router.post("/register", async (req, res) => {
-  const result = await auth.register(req, res)
-  if (result && !result.error) {
-    res.status(201).json({ message: "User registered successfully" })
-  } else if (result && result.error) {
-    res.status(400).json({ error: result.error })
-  } else {
-    console.error("User registration failed")
-    res.status(400).json({ error: "User registration failed" })
+  try {
+    await auth.register(req.body.email, req.body.password)
+
+    res.status(201).json({
+      message: "User registered successfully",
+    })
+  } catch (error) {
+    console.error("Error registering user:", error)
+
+    return res.status(400).json({
+      error: error.message,
+    })
   }
 })
 
