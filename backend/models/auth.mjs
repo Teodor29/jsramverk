@@ -6,10 +6,6 @@ import formData from "form-data"
 import Mailgun from "mailgun.js"
 
 const mailgun = new Mailgun(formData)
-const mg = mailgun.client({
-  username: "api",
-  key: process.env.MAILGUN_API_KEY,
-})
 
 const auth = {
   getUser: async function getUser(req) {
@@ -32,6 +28,10 @@ const auth = {
   },
 
   sendInviteEmail: async function sendInviteEmail(email, docId) {
+    const mg = mailgun.client({
+      username: "api",
+      key: process.env.MAILGUN_API_KEY,
+    })
     const url = `${process.env.FRONTEND_URL}/documents/${docId}`
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `Jsramverk document editor <noreply@${process.env.MAILGUN_DOMAIN}>`,
