@@ -139,11 +139,11 @@ function Document() {
           name="email"
           value={shareEmail}
           onChange={(e) => setShareEmail(e.target.value)}
-          placeholder="Dela med e-post"
+          placeholder="E-post"
           className="flex-1 m-0"
         />
         <button type="button" onClick={handleShare}>
-          Dela dokument
+          Dela
         </button>
       </div>
       <form className="flex-1 flex flex-col" onSubmit={handleSubmit}>
@@ -154,11 +154,11 @@ function Document() {
             name="title"
             value={document.title || ""}
             onChange={handleChange}
-            placeholder="Titel på dokumentet"
+            placeholder="Titel"
             required
             className="flex-1"
           />
-          <button type="submit">Uppdatera dokument</button>
+          <button type="submit">Uppdatera</button>
         </div>
 
         <textarea

@@ -1,7 +1,5 @@
 import express from "express"
 import documents from "../models/docs.mjs"
-import auth from "../models/auth.mjs"
-import authMiddleware from "../middleware/auth.mjs"
 
 const router = express.Router()
 
