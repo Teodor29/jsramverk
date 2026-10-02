@@ -20,22 +20,16 @@ function Document() {
     import.meta.env.VITE_BACKEND_URL ||
     "https://jsramverk-editor-teli21-g8dfgkbabgfygce2.swedencentral-01.azurewebsites.net"
 
-  console.log("Using socket URL:", socketURL)
-
   useEffect(() => {
     socketRef.current = io(socketURL)
 
     socketRef.current.on("connect", () => {
-      console.log("Connected to socket server")
       if (id) {
-        socketRef.current.emit("create", id)
-        console.log("Joining room:", id)
+        socketRef.current.emit("join", id)
       }
     })
 
-    socketRef.current.on("disconnect", () => {
-      console.log("Disconnected from socket server")
-    })
+    socketRef.current.on("disconnect", () => {})
 
     return () => {
       if (socketRef.current) {
@@ -64,15 +58,12 @@ function Document() {
         if (updatedDoc._id === id) {
           setDocument(updatedDoc)
           setLoading(false)
-          setReceivedFromSocket(true)
           clearTimeout(timeout)
         }
       })
 
       timeout = setTimeout(() => {
-        if (!receivedFromSocket) {
           fetchDocument()
-        }
       }, 500)
     } else {
       fetchDocument()
@@ -84,7 +75,7 @@ function Document() {
       }
       clearTimeout(timeout)
     }
-  }, [id, receivedFromSocket])
+  }, [id])
 
   const handleChange = (e) => {
     const { name, value } = e.target
