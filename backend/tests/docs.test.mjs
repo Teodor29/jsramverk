@@ -85,6 +85,14 @@ describe("PUT /api/docs/:id", () => {
       .expect(200)
 
     expect(response.body.modifiedCount).toBe(1)
+
+    const docResponse = await request(app)
+      .get(`/api/docs/${docId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200)
+
+    expect(docResponse.body.title).toBe("Uppdaterat dokument")
+    expect(docResponse.body.content).toBe("Uppdaterat innehåll")
   })
 })
 
@@ -105,8 +113,6 @@ describe("DELETE /api/docs/:id", () => {
       .delete(`/api/docs/${docId}`)
       .set("Authorization", `Bearer ${token}`)
       .expect(200)
-
-    console.log(response.body)
 
     expect(response.body.modifiedCount).toBe(1)
   })

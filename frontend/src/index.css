@@ -1,32 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-text-primary: #c0c0c0;
-  --color-text-secondary: #a0a0a0;
-  --color-text-heading: #f0f0f0;
-  --color-text-link: #83b552;
+  --color-fg: #c0c0c0;
+  --color-fg-heading: #f0f0f0;
 
-  --color-accent-text: #b8de93;
-  --color-accent-hover: #83b552;
-  --color-accent: #83b552;
-  --color-accent-button: #658b3fff;
-  --color-link: #83b552;
-  --color-outline: #545454;
-  --color-red: #ff2718;
+  --color-accent-text: #94c464;
+  --color-accent-hover: #61853d;
+  --color-accent: #506e32;
+  --color-danger: #d35e5e;
 
-  --color-dark: #0a0a0a;
-  --color-dark2: #1a1a1a;
-  --color-dark3: #2a2a2a;
-  --color-dark4: #3a3a3a;
-  --color-dark5: #4a4a4a;
-  --color-dark6: #5a5a5a;
+  --color-page: #1a1a1a;
+  --color-surface: #2a2a2a;
+  --color-subtle: #3a3a3a;
+  --color-border: #545454;
 
   --font-display: "Inter", sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-dark2 text-text-primary font-display;
+    @apply bg-page text-fg font-display;
   }
 
   h1,
@@ -35,7 +28,7 @@
   h4,
   h5,
   h6 {
-    @apply text-text-heading font-display;
+    @apply text-fg-heading font-display;
   }
 
   h1 {
@@ -55,28 +48,28 @@
   }
 
   p {
-    @apply text-base text-text-secondary m-0;
+    @apply text-base text-fg m-0;
   }
 
   button {
-    @apply bg-accent-button text-text-heading font-semibold py-2 px-4 rounded hover:bg-accent-hover cursor-pointer transition-colors;
+    @apply bg-accent text-fg-heading font-semibold py-2 px-4 rounded hover:bg-accent-hover cursor-pointer transition-colors;
   }
 
   input,
   textarea {
-    @apply w-full p-2 px-4 bg-dark4 text-text-primary border border-outline rounded-md transition-colors;
+    @apply w-full p-2 px-4 bg-subtle text-fg border border-border rounded-md transition-colors;
   }
 
   label {
-    @apply text-text-primary font-semibold mb-2 block;
+    @apply text-fg font-semibold mb-2 block;
   }
 
   a {
-    @apply text-link hover:underline hover:cursor-pointer;
+    @apply text-accent-text underline hover:cursor-pointer;
   }
 
   header a {
-    @apply text-text-heading hover:text-accent transition-colors hover:no-underline;
+    @apply text-fg-heading hover:text-accent-text transition-colors no-underline;
   }
 
   form {
@@ -86,12 +79,16 @@
 
 @layer components {
   .card {
-    @apply max-w-xl mx-auto rounded-xl bg-dark3 p-6 shadow;
+    @apply max-w-xl mx-auto rounded-xl bg-surface p-6 shadow;
+  }
+
+  .doc-card {
+    @apply flex items-center bg-surface rounded-lg p-4 hover:shadow-md hover:bg-subtle cursor-pointer;
   }
 
   .document input,
   .document textarea {
-    @apply focus:outline-none bg-dark2;
+    @apply focus:border-none bg-page;
   }
 
   .link {

@@ -51,7 +51,7 @@ function DocumentList() {
   }
 
   if (error) {
-    return <p className="text-center">Ett fel uppstod: {error}</p>
+    return <p className="text-center text-danger">Ett fel uppstod: {error}</p>
   }
 
   return (
@@ -67,8 +67,7 @@ function DocumentList() {
             <li
               key={doc._id}
               onClick={() => navigate(`/documents/${doc._id}`)}
-              className="flex items-center bg-dark3 rounded-lg p-4
-                     hover:shadow-md hover:bg-dark4 cursor-pointer"
+              className="doc-card"
             >
               <span>{doc.title}</span>
 

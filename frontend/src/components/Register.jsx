@@ -10,7 +10,7 @@ function Register() {
   const [error, setError] = useState(null)
 
   if (loading) {
-    return <p>Laddar...</p>
+    return <p className="text-center">Laddar...</p>
   }
 
   if (isAuthenticated) {
@@ -39,7 +39,7 @@ function Register() {
   return (
     <div className="card min-w-md">
       <h2 className="text-center">Registrera dig</h2>
-      {error && <p className="text-red-500 text-center m-0">{error}</p>}
+      {error && <p className="text-danger text-center m-0">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">E-post</label>

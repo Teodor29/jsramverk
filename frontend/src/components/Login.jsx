@@ -9,7 +9,7 @@ function Login() {
   const [error, setError] = useState(null)
 
   if (loading) {
-    return <p>Laddar...</p>
+    return <p className="text-center">Laddar...</p>
   }
 
   if (isAuthenticated) {
@@ -35,7 +35,7 @@ function Login() {
   return (
     <div className="card min-w-md">
       <h2 className="text-center">Logga in</h2>
-      {error && <p className="text-red-500 text-center m-0">{error}</p>}
+      {error && <p className="text-danger text-center m-0">{error}</p>}
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">E-post</label>

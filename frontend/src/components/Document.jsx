@@ -63,7 +63,7 @@ function Document() {
       })
 
       timeout = setTimeout(() => {
-          fetchDocument()
+        fetchDocument()
       }, 500)
     } else {
       fetchDocument()
@@ -100,25 +100,23 @@ function Document() {
   }
 
   const handleShare = async () => {
-    console.log("Dela dokumentet med:", shareEmail)
     try {
       await shareDocument(id, shareEmail)
-      console.log("Document shared successfully")
     } catch (error) {
       console.error("Failed to share document", error)
     }
   }
 
   if (loading) {
-    return <p>Laddar dokument...</p>
+    return <p className="text-center">Laddar dokument...</p>
   }
 
   if (error) {
-    return <p>Ett fel uppstod: {error}</p>
+    return <p className=" text-center text-danger">Ett fel uppstod: {error}</p>
   }
 
   if (!document) {
-    return <p>Dokumentet hittades inte.</p>
+    return <p className="text-center">Dokumentet hittades inte.</p>
   }
 
   return (

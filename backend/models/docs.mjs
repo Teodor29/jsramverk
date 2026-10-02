@@ -119,8 +119,14 @@ const docs = {
       },
     )
 
-    if (result.modifiedCount > 0) {
+    if (result.modifiedCount === 0) {
+      return null
+    }
+
+    try {
       await auth.sendInviteEmail(email, docId)
+    } catch (error) {
+      console.error("Error registering user:", error)
     }
 
     return result

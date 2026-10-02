@@ -30,6 +30,15 @@ describe("POST /api/auth/register", () => {
 
     expect(response.body.message).toBe("User registered successfully")
   })
+
+  it("registrerar en användare som redan finns", async () => {
+    const response = await request(app)
+      .post("/api/auth/register")
+      .send({ email, password })
+      .expect(400)
+
+    expect(response.body.error).toBe("User already exists")
+  })
 })
 
 describe("POST /api/auth/login", () => {
@@ -42,6 +51,12 @@ describe("POST /api/auth/login", () => {
     expect(response.body.token).toBeDefined()
     token = response.body.token
   })
+
+  it("loggar in utan email eller lösenord", async () => {
+    const response = await request(app).post("/api/auth/login").expect(401)
+
+    expect(response.body.error).toBe("Invalid email or password")
+  })
 })
 
 describe("GET /api/auth/me", () => {
@@ -52,5 +67,11 @@ describe("GET /api/auth/me", () => {
       .expect(200)
 
     expect(response.body.email).toBe(email)
+  })
+
+  it("nekar utan token", async () => {
+    const response = await request(app).get("/api/auth/me").expect(401)
+
+    expect(response.body.error).toBe("Unauthorized")
   })
 })
