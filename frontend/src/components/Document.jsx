@@ -14,7 +14,6 @@ function Document() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [shareEmail, setShareEmail] = useState("")
-  const [receivedFromSocket, setReceivedFromSocket] = useState(false)
   const socketRef = useRef(null)
   const socketURL =
     import.meta.env.VITE_BACKEND_URL ||
@@ -28,8 +27,6 @@ function Document() {
         socketRef.current.emit("join", id)
       }
     })
-
-    socketRef.current.on("disconnect", () => {})
 
     return () => {
       if (socketRef.current) {

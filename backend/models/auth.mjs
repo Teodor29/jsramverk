@@ -33,7 +33,7 @@ const auth = {
       key: process.env.MAILGUN_API_KEY,
     })
     const url = `${process.env.FRONTEND_URL}/documents/${docId}`
-    const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+    await mg.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `Jsramverk document editor <noreply@${process.env.MAILGUN_DOMAIN}>`,
       to: [email],
       subject: "Ett dokument har delats med dig!",
@@ -44,8 +44,6 @@ const auth = {
       text: `Du har fått tillgång till ett dokument: ${url}`,
     })
 
-    console.log("Document shared email sent:", msg)
-
     return true
   },
 
@@ -55,13 +53,13 @@ const auth = {
     const user = await db.collection("users").findOne({ email })
 
     if (!user) {
-      throw new Error("Invalid email or password")
+      throw new Error("Invalid email")
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password)
 
     if (!isPasswordValid) {
-      throw new Error("Invalid email or password")
+      throw new Error("Invalid password")
     }
 
     const payload = { email: user.email }

@@ -52,10 +52,22 @@ describe("POST /api/auth/login", () => {
     token = response.body.token
   })
 
-  it("loggar in utan email eller lösenord", async () => {
-    const response = await request(app).post("/api/auth/login").expect(401)
+  it("loggar in med fel email", async () => {
+    const response = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "fel@test.com", password })
+      .expect(401)
 
-    expect(response.body.error).toBe("Invalid email or password")
+    expect(response.body.error).toBe("Invalid email")
+  })
+
+  it("loggar in med fel lösenord", async () => {
+    const response = await request(app)
+      .post("/api/auth/login")
+      .send({ email, password: "fel" })
+      .expect(401)
+
+    expect(response.body.error).toBe("Invalid password")
   })
 })
 
