@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { createDocument } from "../services/document"
+import { createDocument, deleteDocument } from "../services/document"
 import { getDocuments } from "../services/document"
+import { Trash } from "lucide-react"
 
 function DocumentList() {
   const [documents, setDocuments] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -35,29 +37,55 @@ function DocumentList() {
     }
   }
 
+  const handleDeleteDocument = async (id) => {
+    try {
+      await deleteDocument(id)
+      window.location.reload()
+    } catch (error) {
+      console.error("Failed deleting document", error)
+    }
+  }
+
   if (loading) {
-    return <p>Laddar dokument...</p>
+    return <p className="text-center">Laddar dokument...</p>
   }
 
   if (error) {
-    return <p>Ett fel uppstod: {error}</p>
+    return <p className="text-center text-danger">Ett fel uppstod: {error}</p>
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <button className="mb-4" onClick={handleCreateDocument}>
+    <div className="flex flex-col max-w-2xl w-full mx-auto">
+      <button className="ml-auto mb-4" onClick={handleCreateDocument}>
         Skapa dokument
       </button>
-      <h2 className="text-2xl font-bold mb-4">Dokument</h2>
       {!documents || documents.length === 0 ? (
-        <p>Inga dokument tillgängliga</p>
+        <p className="text-center">Inga dokument tillgängliga</p>
       ) : (
         <ul className="space-y-2">
           {documents.map((doc) => (
-            <li key={doc._id}>
-              <Link to={`/documents/${doc._id}`} className="text-lg">
-                {doc.title}
-              </Link>
+            <li
+              key={doc._id}
+              onClick={() => navigate(`/documents/${doc._id}`)}
+              className="doc-card"
+            >
+              <span>{doc.title}</span>
+
+              <span className="ml-auto">
+                {new Date(doc.updated_at).toLocaleDateString("sv-SE")}
+              </span>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleDeleteDocument(doc._id)
+                }}
+                className="p-2 ml-2"
+                aria-label={`Ta bort ${doc.title}`}
+              >
+                <Trash size={16} />
+              </button>
             </li>
           ))}
         </ul>

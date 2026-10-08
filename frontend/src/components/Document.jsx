@@ -14,27 +14,18 @@ function Document() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [shareEmail, setShareEmail] = useState("")
-  const [receivedFromSocket, setReceivedFromSocket] = useState(false)
   const socketRef = useRef(null)
   const socketURL =
     import.meta.env.VITE_BACKEND_URL ||
     "https://jsramverk-editor-teli21-g8dfgkbabgfygce2.swedencentral-01.azurewebsites.net"
 
-  console.log("Using socket URL:", socketURL)
-
   useEffect(() => {
     socketRef.current = io(socketURL)
 
     socketRef.current.on("connect", () => {
-      console.log("Connected to socket server")
       if (id) {
-        socketRef.current.emit("create", id)
-        console.log("Joining room:", id)
+        socketRef.current.emit("join", id)
       }
-    })
-
-    socketRef.current.on("disconnect", () => {
-      console.log("Disconnected from socket server")
     })
 
     return () => {
@@ -63,15 +54,13 @@ function Document() {
       socketRef.current.on("documentUpdated", (updatedDoc) => {
         if (updatedDoc._id === id) {
           setDocument(updatedDoc)
-          setReceivedFromSocket(true)
+          setLoading(false)
           clearTimeout(timeout)
         }
       })
 
       timeout = setTimeout(() => {
-        if (!receivedFromSocket) {
-          fetchDocument()
-        }
+        fetchDocument()
       }, 500)
     } else {
       fetchDocument()
@@ -83,7 +72,7 @@ function Document() {
       }
       clearTimeout(timeout)
     }
-  }, [id, receivedFromSocket])
+  }, [id])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -108,29 +97,27 @@ function Document() {
   }
 
   const handleShare = async () => {
-    console.log("Dela dokumentet med:", shareEmail)
     try {
       await shareDocument(id, shareEmail)
-      console.log("Document shared successfully")
     } catch (error) {
       console.error("Failed to share document", error)
     }
   }
 
   if (loading) {
-    return <p>Laddar dokument...</p>
+    return <p className="text-center">Laddar dokument...</p>
   }
 
   if (error) {
-    return <p>Ett fel uppstod: {error}</p>
+    return <p className=" text-center text-danger">Ett fel uppstod: {error}</p>
   }
 
   if (!document) {
-    return <p>Dokumentet hittades inte.</p>
+    return <p className="text-center">Dokumentet hittades inte.</p>
   }
 
   return (
-    <div className="document">
+    <div className="document flex flex-1 flex-col">
       <div className="flex gap-4 mb-4 sm:flex-row flex-col">
         <input
           type="text"
@@ -138,14 +125,14 @@ function Document() {
           name="email"
           value={shareEmail}
           onChange={(e) => setShareEmail(e.target.value)}
-          placeholder="Dela med e-post"
+          placeholder="E-post"
           className="flex-1 m-0"
         />
         <button type="button" onClick={handleShare}>
-          Dela dokument
+          Dela
         </button>
       </div>
-      <form className="h-full flex flex-col" onSubmit={handleSubmit}>
+      <form className="flex-1 flex flex-col" onSubmit={handleSubmit}>
         <div className="flex gap-4 mb-4 sm:flex-row flex-col">
           <input
             type="text"
@@ -153,23 +140,20 @@ function Document() {
             name="title"
             value={document.title || ""}
             onChange={handleChange}
-            placeholder="Titel på dokumentet"
+            placeholder="Titel"
             required
             className="flex-1"
           />
-          <button type="submit">Uppdatera dokument</button>
+          <button type="submit">Uppdatera</button>
         </div>
 
-        <div className="flex-1 min-h-0">
-          <textarea
-            id="content"
-            name="content"
-            className="min-h-[calc(100vh-13rem)]"
-            value={document.content || ""}
-            onChange={handleChange}
-            placeholder="Skriv innehållet här"
-          />
-        </div>
+        <textarea
+          id="content"
+          name="content"
+          className="flex-1"
+          value={document.content || ""}
+          onChange={handleChange}
+        />
       </form>
     </div>
   )

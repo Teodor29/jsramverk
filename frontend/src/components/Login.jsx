@@ -9,7 +9,7 @@ function Login() {
   const [error, setError] = useState(null)
 
   if (loading) {
-    return <p>Laddar...</p>
+    return <p className="text-center">Laddar...</p>
   }
 
   if (isAuthenticated) {
@@ -26,16 +26,16 @@ function Login() {
       await login(email, password)
 
       navigate("/")
-    } catch {
-      setError("Felaktig e-post eller lösenord")
+    } catch (error) {
+      setError(error.response.data.error)
       return
     }
   }
 
   return (
-    <div className="card max-w-md">
+    <div className="card min-w-md">
       <h2 className="text-center">Logga in</h2>
-      {error && <p className="text-red-500 text-center m-0">{error}</p>}
+      {error && <p className="text-danger text-center m-0">{error}</p>}
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">E-post</label>
@@ -57,7 +57,7 @@ function Login() {
             required
           />
         </div>
-        <button type="submit" className="w-full">
+        <button type="submit" className="w-full mb-2">
           Logga in
         </button>
       </form>
